@@ -1,9 +1,50 @@
 <template>
+  <!--MODAL-->
+  <div
+    class="modal"
+    id="Modal-1"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog text-center">
+      <div class="modal-content text-center">
+        <div class="modal_header bg-purple container">
+          <div class="row">
+            <div class="col-2"></div>
+            <h2 class="text-center col-8 Modal_title" id="">
+              {{ poemaSelecao.title_poem }}
+            </h2>
+            <button
+              type="button"
+              class="btn-close ps-5 col-2"
+              data-bs-dismiss="modal"
+            ></button>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+          </div>
+        </div>
+        <div class="modal-body">
+          <img :src="poemaSelecao.image_poem" class="" />
+          {{ poemaSelecao.text_poem }}
+        </div>
+        <div class="modal_footer pe-2 pt-3">
+          <p class="text-end">{{ poemaSelecao.date_poem }}</p>
+          <p>{{ poemaSelecao.descricao_poem }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <section id="poesias" class="container mt-4">
     <div class="row cabin-font mb-4 text-center">
       <!-- CARD -->
       <div class="mb-4 col-md-4 col-12" v-for="poema of poemas" :key="poema.id">
-        <a href="" data-bs-toggle="modal" data-bs-target="#Modal-1">
+        <a
+          href=""
+          data-bs-toggle="modal"
+          data-bs-target="#Modal-1"
+          @click="selecionarPoema(poema)"
+        >
           <div class="card preto">
             <div class="mt-3 my-1">
               <h3 class="fs-card">{{ poema.title_poem }}</h3>
@@ -12,41 +53,6 @@
             <p class="mb-0 mt-1">{{ poema.descricao_poem }}</p>
           </div>
         </a>
-      </div>
-
-      <!--MODAL-->
-      <div
-        class="modal"
-        id="Modal-1"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-        v-for="poema of poemas"
-        :key="poema.id"
-      >
-        <div class="modal-dialog text-center">
-          <div class="modal-content text-center">
-            <div class="modal_header bg-purple container">
-              <div class="row">
-                <div class="col-2"></div>
-                <h2 class="text-center col-8 Modal_title" id="">
-                  {{ poema.title_poem }}
-                </h2>
-                <button
-                  type="button"
-                  class="btn-close ps-5 col-2"
-                  data-bs-dismiss="modal"
-                ></button>
-                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-              </div>
-            </div>
-            <div class="modal-body">{{ poema.text_poem }}</div>
-            <div class="modal_footer pe-2 pt-3">
-              <p class="text-end">{{ poema.date_poem }}</p>
-              <p>{{ poem.descricao_poem }}</p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -69,17 +75,22 @@ import PoemaService from "@/services/poemaService.js";
 
 var poemas = [
   {
+    id: 0,
     title_poem: "Poema teste",
-    image_poem: "@/assets/img/borboleta.jpg",
+    image_poem: "/img/borboleta_teste.jpg",
     text_poem: "POEMAAAAAA",
+    descricao_poem: "OK",
   },
 ];
+
+var poemaSelecao = {};
 
 export default {
   components: {},
   data() {
     return {
       poemas,
+      poemaSelecao,
     };
   },
   mounted() {
@@ -95,6 +106,9 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    selecionarPoema(poema) {
+      this.poemaSelecao = poema;
     },
   },
 };
